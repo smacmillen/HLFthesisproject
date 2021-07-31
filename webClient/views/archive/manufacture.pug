@@ -1,0 +1,15 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle #{title}
+		h2.MenuPrompt Please select an option:
+		div.NavButtons
+			a(href="/make/makeparts")
+				div.NavButton Record Production
+			a(href="/make/inspect")
+				div.NavButton Inspect Parts
+			a(href="/")
+				div.ReturnButton Return Home

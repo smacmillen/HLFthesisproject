@@ -1,0 +1,80 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+		let openView;
+		function toggleRecordView(id){
+			eID='record'+id
+			let ele = document.getElementById(eID);
+			let confirm = document.getElementById('acceptReject');
+
+			if (ele.style.display==='block'){
+				ele.style.display='none';
+				confirm.style.display='none';
+				}
+			else {
+				if (openView) {
+					openView.style.display='none';
+					openView='';
+					}
+				ele.style.display='block';
+				confirm.style.display='block';
+				openView=ele;
+				// update hidden field value:
+				console.log('value of id: ',id)
+				document.getElementById('orderID').value = id
+				}
+		}
+
+	h1.MenuTitle #{title}
+	div.Title
+
+		// logic:
+		
+		// get orders pending review (in Node - pass in as variable)
+	
+		// list orders pending review (from passed in variable)
+
+		// Ask user to pick one:
+
+		// show details
+
+		// Ask if they want to approve
+		//
+		// submit answer
+
+
+		h2 
+			if (!pendingOrders)
+				h2.center There are no orders waiting for your approval in any collection
+			else
+				h2.center Please select an order to disposition:
+				h2(width="100%")
+					table(rules=all, style="min-width: 30%; text-align:center; table-layout:fixed").center
+						tr
+							each val,key in pendingOrders
+								th.tableButton 
+									a(href="#" style="display:flex; justify-content: center" onclick=`toggleRecordView("${val.orderID}")`) #{val.orderID} 
+						tr
+							each val,key in pendingOrders
+								-rName='record'+val.orderID
+								td
+									span(id=rName hidden)
+										+query(val)
+				h2.center(id="acceptReject" hidden)
+					form(action=actionPath method="post" )
+						input(type="hidden" id="pdc" name="pdc" value=PDC)
+						input(type="hidden" id="orderID" name="orderID")
+						table(rules=all, width="100%", style="text-align:center; table-layout:fixed")
+							tr
+								td(colspan="2" style="width:100%") Do you want to accept this order?
+							tr
+								td
+									button(type="submit" id="reject" name="decision" value="reject" class="RejectButton" ) Reject
+								td
+									button(type="submit" id="accept" name="decision" value="accept" class="AcceptButton" ) Accept
+
+
+	+returnNavButtons

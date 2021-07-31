@@ -1,0 +1,49 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '2.4'
+
+networks:
+  <NETWORK_NAME>:
+    external: "true"
+    name: <NETWORK_NAME>
+
+services:
+
+  <peerCA_containerName>:
+    image: hyperledger/fabric-ca:<CA_VER>
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=<peerCA_name>
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_PORT=<peerPort>
+    ports:
+      - "<peerPort>:<peerPort>"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ../organizations/fabric-ca/<org>:/etc/hyperledger/fabric-ca-server
+    container_name: <peerCA_containerName>
+    networks:
+      - <NETWORK_NAME>
+
+  <ordererCA_containerName>:
+    image: hyperledger/fabric-ca:<CA_VER>
+    labels:
+      service: hyperledger-fabric
+    environment:
+      - FABRIC_CA_HOME=/etc/hyperledger/fabric-ca-server
+      - FABRIC_CA_SERVER_CA_NAME=<ordererCA_name>
+      - FABRIC_CA_SERVER_TLS_ENABLED=true
+      - FABRIC_CA_SERVER_PORT=<ordererPort>
+    ports:
+      - "<ordererPort>:<ordererPort>"
+    command: sh -c 'fabric-ca-server start -b admin:adminpw -d'
+    volumes:
+      - ../organizations/fabric-ca/<org>orderer:/etc/hyperledger/fabric-ca-server
+    container_name: <ordererCA_containerName>
+    networks:
+      - <NETWORK_NAME>

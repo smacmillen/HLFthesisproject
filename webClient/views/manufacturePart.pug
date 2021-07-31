@@ -1,0 +1,69 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+		let pdcVal;
+		function getPDC() {
+			a =document.getElementById('PDCselection')
+			pdcVal = a.options[a.selectedIndex].text;
+			console.log(pdcVal)
+			updateSupplierList();
+		}
+		function updateSupplierList() {
+			let pdcA = ['OEM','S11','S21'];
+			let pdcB = ['OEM','S12'];
+			if (pdcVal.includes('S11')) {
+				removeSuppliers();
+				addSuppliers(pdcA);
+				console.log('add pdcA, remove pdcB');
+			} else if (pdcVal.includes('S12')) {
+				removeSuppliers();
+				addSuppliers(pdcB);
+				console.log('add pdcB, remove pdcA')
+			}
+		}
+		function addSuppliers(arr) {
+			select =document.getElementById('supplier')
+				let blank=document.createElement("option");
+				blank.textContent='';
+				blank.value='';
+				blank.disabled=true;
+				blank.selected=true;
+				select.appendChild(blank);
+			for (let i=0;i<arr.length; i++) {
+				let sup=document.createElement("option");
+				sup.textContent=arr[i];
+				sup.value=arr[i];
+				select.appendChild(sup);
+			}
+		}
+		function removeSuppliers() {
+			select =document.getElementById('supplier')
+			var searchtext = "S11";
+			for (var i = (select.options.length -1); i >= 0; --i) {
+				select.remove(i)
+			}
+		}
+
+
+	h1.MenuTitle #{title}
+	div.Title
+		form(action=actionPath method="post" )
+			table(style='width: 50%, min-width 100px', class="middle")
+				tr
+					td Order ID: 
+					td
+						input(type="text" id="orderID" name="orderID" required )
+				tr
+					td Part ID: 
+					td
+						input(type="text" id="partID" name="partID" required )
+				tr
+					td(style="height:25px")
+				tr
+					td(colspan="2").center
+						button(type="submit" class="SubmitButton" ) Continue
+
+	+returnNavButtons

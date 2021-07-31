@@ -1,0 +1,49 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+
+	h1.MenuTitle #{title}
+		h2(style='text-align: center')
+			span #{LN}
+
+	div.flex
+		div.flexGrow1(id="direction-image", style='text-align: center')
+			img(src=`${IMAGE}` alt=`${ALT_TXT}`)
+		div.flexGrow1(id="input-form")
+			form(action=actionPath method="post" )
+				input(type="hidden" id="PDC" name="PDC" value=PDC)
+				input(type="hidden" id="LN" name="LN" value=LN)
+				table(style='width: 50%, min-width 100px', class="middle").medium
+					tr
+						td Current Location: 
+						td
+							input(type="text" id="currentLocation" name="currentLocation" style='width:150px' value=LOC disabled).medium
+					tr
+						td Destination: 
+						td
+							select(name="DEST" style='width:150px' required ).medium
+								option(value='' disabled selected)
+									if (PDC.includes('S11'))
+										- const orgList = ['OEM','S11','S21'];
+										-console.log('value of orgList: ',orgList)
+										-console.log('value of ORG: ',ORG)
+										each val in orgList
+											if val != ORG
+												option(value=val) #{val}
+									else if (PDC.includes('S12'))
+										- const orgList = ['OEM','S12'];
+										-console.log('value of orgList: ',orgList)
+										-console.log('value of ORG: ',ORG)
+										each val in orgList
+											if val != ORG
+												option(value=val) #{val}
+					tr
+						td(style="height:25px")
+					tr
+						td(colspan="2").center
+							button(type="submit" class="SubmitButton" ) Continue
+		div.flexGrow1(id="empty-space")
+	+returnNavButtons

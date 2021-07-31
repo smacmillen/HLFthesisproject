@@ -1,0 +1,164 @@
+Organizations:
+  - &oemorderer
+    Name: oemorderer
+    ID: OEMOrdererMSP
+    MSPDir: ../organizations/ordererOrganizations/oem.scm.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OEMOrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OEMOrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OEMOrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.oem.scm.com:7050
+  - &OEM
+    Name: OEMMSP
+    ID: OEMMSP
+    MSPDir: ../organizations/peerOrganizations/oem.scm.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('OEMMSP.admin', 'OEMMSP.peer', 'OEMMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('OEMMSP.admin', 'OEMMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('OEMMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('OEMMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.oem.scm.com
+        Port: 7051
+  - &s11orderer
+    Name: s11orderer
+    ID: S11OrdererMSP
+    MSPDir: ../organizations/ordererOrganizations/s11.scm.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('S11OrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('S11OrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('S11OrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.s11.scm.com:7050
+  - &S11
+    Name: S11MSP
+    ID: S11MSP
+    MSPDir: ../organizations/peerOrganizations/s11.scm.com/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('S11MSP.admin', 'S11MSP.peer', 'S11MSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('S11MSP.admin', 'S11MSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('S11MSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('S11MSP.peer')"
+    AnchorPeers:
+      - Host: peer0.s11.scm.com
+        Port: 7051
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_0: true
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Endorsement"
+  Capabilities:
+    !!merge <<: *ApplicationCapabilities
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - orderer.oem.scm.com:7050
+    - orderer.s11.scm.com:7050
+  EtcdRaft:
+    Consenters:
+      - Host: orderer.oem.scm.com
+        Port: 7050
+        ClientTLSCert: ../organizations/ordererOrganizations/oem.scm.com/orderers/orderer.oem.scm.com/tls/server.crt
+        ServerTLSCert: ../organizations/ordererOrganizations/oem.scm.com/orderers/orderer.oem.scm.com/tls/server.crt
+      - Host: orderer.s11.scm.com
+        Port: 7050
+        ClientTLSCert: ../organizations/ordererOrganizations/s11.scm.com/orderers/orderer.s11.scm.com/tls/server.crt
+        ServerTLSCert: ../organizations/ordererOrganizations/s11.scm.com/orderers/orderer.s11.scm.com/tls/server.crt
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 10
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 512 KB
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    !!merge <<: *ChannelCapabilities
+Profiles:
+  MultiOrgChannel:
+    !!merge <<: *ChannelDefaults
+    Orderer:
+      !!merge <<: *OrdererDefaults
+      Organizations:
+        - *oemorderer
+        - *s11orderer
+      Capabilities:
+        !!merge <<: *OrdererCapabilities
+    Application:
+      !!merge <<: *ApplicationDefaults
+      Organizations:
+        - *OEM
+        - *S11
+      Capabilities:
+        !!merge <<: *ApplicationCapabilities

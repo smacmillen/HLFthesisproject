@@ -1,0 +1,242 @@
+mixin query(obj)
+	if (Array.isArray(obj))
+		each val in obj
+			table.result(rules="all" style="margin-bottom:8px")
+				+typeSelector(val)
+	else
+		table.result(rules="all")
+			+typeSelector(obj)
+	br
+
+mixin typeSelector(obj)
+	case obj.docType
+		when 'part'
+			if obj.assetID
+				+assetQueryChannel(obj,'part')
+			else
+				+partQueryPDC(obj)
+		when 'order'
+			if obj.assetID
+				+assetQueryChannel(obj,'order')
+			else
+				+orderQueryPDC(obj)
+		when 'lot record'
+			if obj.assetID
+				+assetQueryChannel(obj,'lot')
+			else
+				+lotQueryPDC(obj)
+		default
+			p I don't know what this is
+
+mixin assetQueryChannel(obj,type)
+	tr
+		if (type === 'part')
+			th(colspan="2" style="text-align:left" ) Part #{obj.assetID}
+		if (type === 'order')
+			th(colspan="2" style="text-align:left" ) Order #{obj.assetID}
+		if (type === 'lot')
+			th(colspan="2" style="text-align:left" ) Lot #{obj.assetID}
+	each val, key in obj
+		if (key === 'assetID')
+		else if (key === 'docType')
+		else
+			tr
+				td #{key}:
+				td #{val}
+
+mixin partQueryPDC(obj)
+	tr
+		//th(colspan="2" style="text-align:left" ) Part #{obj.partID} Requirements
+		th(colspan="2" style="text-align:center" ) Part #{obj.partID} Requirements
+	each val, key in obj
+		if (key === 'partID')
+		else if (key === 'docType')
+		else if (key === 'requirements')
+			each v, k in val
+				tr
+					td Dim #{k+1}
+					td
+						table(rules="all" width="100%")
+							each vv, kk in v
+								if (kk=='dimID')
+								else
+									tr
+										td #{kk}
+										td #{vv}
+
+		else
+			tr
+				td #{key}:
+				td #{val}
+
+
+
+
+	//
+	//
+	//mixin orderQueryChannel
+	//mixin orderQueryPDC
+	//
+	//mixin lotQueryChannel
+	//mixin lotQueryPDC
+
+mixin orderQueryPDC(obj)
+	tr
+		th(colspan="2" style="text-align:left" ) Order #{obj.orderID} Record
+	each val, key in obj
+		if (key === 'orderID')
+		else if (key === 'docType')
+		else
+			tr
+				td #{key}:
+				td #{val}
+
+mixin lotQueryPDC(obj)
+	tr
+		//th(colspan="2" style="text-align:left" ) Part #{obj.partID} Requirements
+		th(colspan="2" style="text-align:center" ) Lot #{obj.lotID}
+	each val, key in obj
+		if (key === 'lotID')
+		else if (key === 'docType')
+		else if (key === 'inspectionData')
+			each v, k in val
+				tr
+					td Dimension #{k+1}
+					td
+						table(rules="all" width="100%")
+							each vv, kk in v
+								if (kk=='dimID')
+								else
+									tr
+										td #{kk}
+										td #{vv}
+
+		else
+			tr
+				td #{key}:
+				td #{val}
+
+
+
+
+	//
+	//
+	//mixin orderQueryChannel
+	//mixin orderQueryPDC
+	//
+	//mixin lotQueryChannel
+	//mixin lotQueryPDC
+
+
+
+mixin printJSON(obj) 
+	each key in obj
+		table.result
+			tr
+				th key
+				th value
+				+jsonInner(key)
+			br
+
+mixin jsonInner(obj) 
+	each val, key in obj
+		tr
+			td #{key}:
+			if (typeof val === 'object')
+				td
+					+jsonInner(val)
+			else
+				td #{val}
+
+	//h1 #{obj.length}
+	//h1 #{obj.docType}
+	//-let a=JSON.stringify(obj)
+	//h1 #{a}
+	//table(style='width: 50%' border: 1px)
+
+
+
+
+	//mixin printJSON(obj) 
+	//	+jsonInner(obj)
+	//		br
+
+
+	//mixin jsonInner(obj) 
+	//	each val, key in obj
+	//		div 
+	//			span.b #{key}: 
+	//			//if val === 'a'
+	//			if (typeof val === 'object')
+	//				//p val is an object
+	//				.indent
+	//					+jsonInner(val)
+	//			else
+	//				span #{val}
+
+mixin queryMenu(title,type,actionPath,PDC)
+	div.Title
+		form(action=actionPath method="post")
+			h3 Please Enter the #{type} Number You Wish to Query:
+			label.Capitalize(for="assetID") #{type}ID:
+			input(
+				type="text"
+				id="assetID"
+				name="assetID"
+				required
+			)
+			br
+			label(for="channel") Channel
+			input(type="radio" id="channel" name="location" value="channel" onclick="toggleMenu(PDCselect)" checked)
+			label(for="collection") Collection
+			input(type="radio" id="collection" name="location" value="collection" onclick="toggleMenu(PDCselect)")
+			br
+			input(type="submit" value="Submit" class="SubmitButton")
+
+mixin header
+	a(href="/")
+		h1.Banner
+			div.flexHeader
+				divWhite
+				divWhite.BannerTitle SUPPLY CHAIN SYSTEM
+				if (COUNTRY)
+					divWhite
+					img(src=`${COUNTRY}` alt='flag' type="image/x-icon")
+				else
+					divWhite
+
+
+
+mixin Oldheader
+	h1.Banner
+		table(style='width: 100%')
+			tr(style='text-align: center')
+				td(style='width: 33%; text-align: left') #{ORG}
+				td(style='width: 33%')
+					a(href="/") SUPPLY CHAIN SYSTEM
+				td(style='width: 33%; text-align: right') 
+					if (COUNTRY)
+						img(src=`${COUNTRY}` alt='flag' type="image/x-icon")
+
+
+mixin returnNavButtons()
+	div.ReturnButtonBox.passthroughClick
+		table(style='width: 100%')
+			tr
+				td(style="min-width:140px")
+				td(style="min-width:140px")
+				td(style="min-width:140px")
+				td(style="min-width:140px")
+			tr
+				td
+					div.clickable.OtherButton(onclick="history.back()") Back
+				td
+				td
+				td
+					a(href="/").clickable.OtherButton Home
+
+
+
+
+mixin footer
+	footer(id="footer")  #{ORG}-基于许可区块链的供应链系统演示

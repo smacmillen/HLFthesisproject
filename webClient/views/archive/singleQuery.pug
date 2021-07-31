@@ -1,0 +1,64 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+		function toggleMenu(menuName) {
+			let radio = document.getElementsByName('database');
+			// channel
+			if (radio[0].checked) {
+				console.log('channel is selected')
+				// hide PDC selector
+				let p = document.getElementById(menuName);
+				p.style.display = "none";
+			// collection
+			} else if (radio[1].checked) {
+				console.log('collection is selected')
+				// show PDC selector
+				let p = document.getElementById(menuName);
+				p.style.display = "block";
+			}
+		}
+
+	h1.MenuTitle #{title}
+
+	div.Title
+		form(action=actionPath method="post")
+			table(style='width: 50%; width: 330px' class="middle")
+				tr
+					td(style='width: 105px')
+						h3 #{type} ID:
+					td(style='width: 225px')
+						input(type="text" id="assetID" name="assetID" required)
+				tr
+					td(style='width:105px')
+						h3 Database:
+					td(style='width:225px; text-align:center')
+						label(for="channel") Channel
+						input(type="radio" id="database" name="database" value="channel" onclick="toggleMenu('PDCselect')" checked)
+						span 
+						label(for="collection") Collection
+						input(type="radio" id="database" name="database" value="collection" onclick="toggleMenu('PDCselect')")
+			table(style='width: 50%; width: 330px' class="middle")
+				tr(id='PDCselect' hidden)
+					td(style='width: 105px')
+						h3 PDC:
+					td(style='width: 225px')
+						select(name='pdc' id='PDCselection')
+							each val, index in PDC
+								option(value= PDC[index]) #{PDC[index]}
+				tr
+					td(style="height:25px")
+				tr
+					td(colspan="2", style="text-align:center")
+						input(type="submit" value="Submit" class="SubmitButton")
+
+	+returnNavButtons
+
+							
+
+
+
+
+

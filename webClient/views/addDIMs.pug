@@ -1,0 +1,51 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+
+	h1.MenuTitle #{title} 
+		span #{Data.partID}:
+	form(action="/admin/designpart/result" method="post" id="partEntry" name="partEntry")
+		-let n = 0
+		-console.log('building table')
+		while n < Data.numDims
+			//h2 Part #{Data.partID} Dimension #{n+1}:
+			//table(style='width: 50%, max-width 100px', class="middle")
+			table(style='width: 50%, min-width 100px', class="middle tableBorder rounded")
+				-console.log('n equals ',n)
+				tr
+					td(rowspan="4")
+						h2 Dimension #{n+1}:
+					td UCL: 
+					td
+						input(type="number" min=0 step="0.001" id=`UCL-${n}` name='UCL' required)
+				tr
+					td LCL: 
+					td
+						input(type="number" min=0 step="0.001" id=`LCL-${n}` name='LCL' required)
+				tr
+					td Target: 
+					td
+						input(type="number" min=0 step="0.001" id=`Target-${n}` name='Target' required)
+				tr
+					td CPK: 
+					td
+						input(type="number" min=0 step="0.01" id=`CPK-${n}` name='CPK' required)
+				-n++
+			br
+		input(type="hidden" value=Data.partID name="partID" id="partID")
+		input(type="hidden" value=Data.partName name="partName" id="partName")
+		input(type="hidden" value=Data.parentID name="parentID" id="parentID")
+		input(type="hidden" value=Data.numDims name="numDims" id="numDims")
+		input(type="hidden" value=Data.pdc name="pdc" id="pdc")
+		table(style='width: 50%, min-width 100px', class="middle")
+			tr
+				td(style="min-width:140px")
+				td(style="min-width:140px")
+			tr
+				td(colspan="2" style="text-align:center")
+						button.col(type="submit" class="SubmitButton") Confirm
+
+	+returnNavButtons

@@ -1,0 +1,20 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle Main Menu
+		h2.MenuPrompt Please select an option:
+		div.NavButtons
+			a(href="/parts")
+				div.NavButton Parts
+			a(href="/orders")
+				div.NavButton Orders
+			a(href="/lots")
+				div.NavButton Lots
+			a(href="/shipping")
+				div.NavButton Shipping
+			a(href="/query")
+				div.NavButton Query
+

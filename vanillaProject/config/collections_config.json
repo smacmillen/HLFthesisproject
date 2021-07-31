@@ -1,0 +1,50 @@
+[
+  {
+    "name": "OEM-S11collection",
+    "policy": "OR('OEMMSP.member','S11MSP.member','S21MSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "memberOnlyRead": true
+  },
+  {
+    "name": "OEM-S12collection",
+    "policy": "OR('OEMMSP.member','S12MSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "memberOnlyRead": true
+  },
+  {
+    "name": "OEMMSPPrivateCollection",
+    "policy": "OR('OEMMSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "memberOnlyRead": true
+  },
+  {
+    "name": "S11MSPPrivateCollection",
+    "policy": "OR('S11MSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "memberOnlyRead": true
+  },
+  {
+    "name": "S12MSPPrivateCollection",
+    "policy": "OR('S12MSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "memberOnlyRead": true
+  },
+  {
+    "name": "S21MSPPrivateCollection",
+    "policy": "OR('S21MSP.member')",
+    "requiredPeerCount": 0,
+    "maxPeerCount": 3,
+    "blockToLive": 0,
+    "memberOnlyRead": true
+  }
+]

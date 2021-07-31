@@ -1,0 +1,17 @@
+{
+  "name": "qrcodes",
+  "version": "1.0.0",
+  "description": "displays latest generated QR codes from directory in terminal",
+  "main": "QRprinter.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Simeon MacMillen",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.24.0"
+  },
+  "dependencies": {
+    "qrcode": "^1.4.4"
+  }
+}

@@ -1,0 +1,9 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+
+	h1.center #{title}
+	div.successFormat #{message}
+	+returnNavButtons

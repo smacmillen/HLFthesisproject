@@ -1,0 +1,10 @@
+extends layout
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle #{title}
+		h2.MenuPrompt Please select an option:
+		div.NavButtons
+			a(href="/admin/deleteasset")
+				div.NavButton Delete Asset
+	+returnNavButtons

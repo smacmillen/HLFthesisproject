@@ -1,0 +1,16 @@
+extends layout
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle #{title}
+		//h2.MenuPrompt Please select an option:
+		div.NavButtons
+			a(href="/orders/add")
+				div.NavButton Add Order
+			a(href="/orders/review")
+				div.NavButton Review Orders
+			a(href="/orders/query")
+				div.NavButton Query
+			a(href="/orders/query-all")
+				div.NavButton List All
+	+returnNavButtons

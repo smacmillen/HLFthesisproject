@@ -1,0 +1,33 @@
+{
+  "name": "expresstest2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon ./index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.27.0",
+    "eslint-plugin-vue": "^7.9.0",
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "colors": "^1.0.3",
+    "dateformat": "^4.5.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "fabric-ca-client": "^2.2.5",
+    "fabric-network": "^2.2.5",
+	  "fabric-sdk-node": "^1.1.0",
+    "fs-extra": "^9.1.0",
+    "grpc": "^1.24.4",
+    "prompt-sync": "^4.2.0",
+    "pug-cli": "^1.0.0-alpha6",
+    "treeify": "^1.1.0"
+  }
+}

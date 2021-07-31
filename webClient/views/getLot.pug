@@ -1,0 +1,32 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+
+	//  pass in: IMAGE, ALT_TXT, ACTION
+
+	div.Title
+		h1.MenuTitle #{title}
+	br
+	br
+	br
+	div.flex
+		div.flexGrow1(id="direction-image", style='text-align: center')
+			img(src=`${IMAGE}` alt=`${ALT_TXT}`)
+		div.flexGrow1(id="input-form")
+			form(action=ACTION method="get" id="lotEntry" name="lotEntry")
+				table(style='width: 50%, min-width 100px', class="middle")
+						tr
+							td Lot ID: 
+							td
+								input(type="text" id="LN" name="LN" required )
+						tr
+							td(style="height:25px")
+						tr
+							td
+							td(style='text-align: center')
+								button(type="submit" class="SubmitButton" ) Continue
+		div.flexGrow1Shrink2(id="empty-space")
+	+returnNavButtons

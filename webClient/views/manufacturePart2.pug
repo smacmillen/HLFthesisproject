@@ -1,0 +1,55 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+
+	h1.MenuTitle #{title}
+	div.Title
+		form(action=actionPath method="post" )
+			table(style='width: 50%, min-width:100px', class="middle" )
+				tr
+					td Order ID: 
+					td
+						input(type="hidden" id="orderID" name="ON" value=ON)
+						input(type="text" id="orderID" name="ON" value=ON disabled)
+				tr
+					td Part ID: 
+					td
+						input(type="hidden" id="partID" name="PN" value=PN)
+						input(type="text" id="partID" name="PN" value=PN disabled)
+				tr
+					td PDC: 
+					td
+						input(type="hidden" id="PDC" name="PDC" value=PDC )
+						input(type="text" id="PDC" name="PDC" value=PDC disabled)
+				tr
+					td(style="height:25px")
+				-let n=0
+				if Array.isArray(Ingredients)
+					tr
+						td(colspan="2", style="clear:both").b Please scan lot numbers for each Subcomponent:
+					while n < (Ingredients.length)
+						-let sub=Ingredients[n]
+						tr(id=`${sub}`)
+							td #{sub}
+							td
+								input(type="text" id=`${sub}-1` name="SUB" required)
+						-n++
+				tr
+					td Lot Quantity: 
+					td
+						input(type="number" id="QTY" min=1 name="QTY" required)
+				tr
+					td(colspan="2" style="text-align:center" )
+						button.col(type="submit" class="SubmitButton") Confirm
+
+	+returnNavButtons
+
+
+
+
+							
+
+

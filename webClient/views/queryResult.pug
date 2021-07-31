@@ -1,0 +1,32 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+		//let area = document.body
+		function toggleWrap() {
+			let area = document.getElementById('resultArea');
+			if (area.classList.contains('flexWrap'))
+				area.classList.remove('flexWrap');
+			else
+				area.classList.add('flexWrap');
+		}
+
+
+	div.flex(style="padding:15px")
+		if (payload.length>2)
+			div.col 
+				button(type="toggle" onclick="toggleWrap()" ) Toggle Wrap
+			div.col
+				h3(style="text-align:left") #{payload.length} Results
+		else
+			h3.center.col(style="text-align:center") #{payload.length} Result
+	div.resultArea(id="resultArea").flexWrap
+		//+printJSON(payload)
+		+query(payload)
+
+	//h1 raw output (for testing:)
+	//- a = JSON.stringify(payload,null,2)
+	//pre #{a}
+	+returnNavButtons

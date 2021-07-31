@@ -1,0 +1,16 @@
+extends layout
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle #{title}
+		h2.MenuPrompt What would you like to query?
+		div.NavButtons
+			a(href="/query/orders/single")
+				div.NavButton Single Order
+			form(action="/query/orders/all" method="POST")
+				button(type="submit" class="NavButton")
+					h4 All Orders
+			//a(href="/query/orders/all_pdc")
+				div.NavButton ALL Orders in Collection
+			a(href="/query")
+				div.ReturnButton Return

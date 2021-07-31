@@ -1,0 +1,45 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	h1.MenuTitle #{title}
+	h2(style="text-align:center") Basic Information
+	div.Title
+		form(action="/admin/designpart" method="post" id="partEntry" name="partEntry")
+			table(style='width: 50%, max-width 100px', class="middle")
+				tr
+					td Part ID: 
+					td
+						input(type="text" id="partID" name="partID" required )
+				tr
+					td Part Name: 
+					td 
+						input(type="text" id="partName" name="partName" required )
+				tr
+					td 
+						span Parent Part ID: 
+						br
+						span (leave blank if none)
+					td
+						input(type="text" id="parentID" name="parentID" )
+				tr
+					td
+						span Number of Dimensions: 
+					td
+						input(type="number" min=1 id="numDims" name="numDims" required)
+				tr
+					td
+						span PDC(Collection) for Part:
+					td
+						select(name='pdc' id='PDCselection' required)
+							option(value= '' disabled selected)
+							each val, index in PDC
+								option(value= PDC[index]) #{PDC[index]}
+				tr
+					td(style="height:25px")
+				tr
+					td
+					td
+						button(type="submit" class="SubmitButton" ) Next
+	+returnNavButtons

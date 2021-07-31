@@ -1,0 +1,16 @@
+&<org_name>orderer
+  Name: <org_name>orderer 
+  ID: <ORG_NAME>OrdererMSP
+  MSPDir: ../organizations/ordererOrganizations/<org_Address>/msp
+  Policies:
+    Readers:
+      Type: Signature
+      Rule: "OR('<ORG_NAME>OrdererMSP.member')"
+    Writers:
+      Type: Signature
+      Rule: "OR('<ORG_NAME>OrdererMSP.member')"
+    Admins:
+      Type: Signature
+      Rule: "OR('<ORG_NAME>OrdererMSP.admin')"
+  OrdererEndpoints:
+    - orderer.<org_Address>:<org_Port>

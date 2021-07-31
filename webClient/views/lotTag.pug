@@ -1,0 +1,34 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+
+	div.center
+		div.lotTag
+			div.tagLabel
+				h1.centerBoth(style="white-space: nowrap") Lot Trace Tag
+			div.tagBody
+				table(width="100%",style="white-space: nowrap")
+					tr
+						td 
+							h3 Part Number: 
+						td(style="text-align:center")
+							h3(class="big") #{PN}
+					tr
+						td
+							h3 Order Number: 
+						td(width="100%",style="text-align:center")
+							h3(class="big") #{ON}
+					tr
+						td
+							h3 Lot Number: 
+						td
+							span #{LN}
+				div.qrBox
+					img(src=qrsrc alt="QR Code Image")
+				//div(style="text-align:center")
+					h3 扫描二维码获取更多信息
+					h3 Scan the QR code for more information
+
+	+returnNavButtons

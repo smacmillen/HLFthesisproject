@@ -1,0 +1,50 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	script.
+		function confirmQty() {
+			if (QTY_received.value > expectedQTY.value) {
+				console.log('received more than expected')
+				if(confirm(`Received quantity is > expected quantity.  Receive anyway?`)) {
+					return true;
+					} else { return false; }
+			} else if (QTY_received.value < expectedQTY.value) {
+				console.log('received less than expected')
+				if(confirm(`Received quantity is < expected quantity.  Receive anyway?`)) {
+					return true;
+					} else { return false; }
+			} else {
+				console.log('received what we were expecting')
+				return true;
+			}
+		}
+
+	h1.MenuTitle #{title}
+		h2(style='text-align: center')
+			span #{LN}
+
+	div.flex
+		div.flexGrow1(id="direction-image", style='text-align: center')
+			img(src=`${IMAGE}` alt=`${ALT_TXT}`)
+		div.flexGrow1(id="input-form")
+			form(method="post" id="myForm")
+				input(type="hidden" id="PDC" name="PDC" value=PDC)
+				input(type="hidden" id="LN" name="LN" value=LN)
+				table(style='width: 50%, min-width 100px', class="middle").medium
+					tr
+						td Quantity Expected: 
+						td
+							input(type="number" id="expectedQTY" name="expectedQTY" style='width:150px' value=QTY_expected disabled).medium
+					tr
+						td Quantity Received:
+						td
+							input(type="number" min=0 id="QTY_received" name="QTY_received" style='width:150px' required).medium
+					tr
+						td(style="height:25px")
+					tr
+						td(colspan="2").center
+							button(type="submit" class="SubmitButton" onclick="if(confirmQty()){}else{return false;};") Confirm
+		div.flexGrow1(id="empty-space")
+	+returnNavButtons

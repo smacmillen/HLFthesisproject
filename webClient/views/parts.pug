@@ -1,0 +1,16 @@
+extends layout
+
+include ../scripts/mixins
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle #{title}
+		//h2.MenuPrompt Please select an option:
+		div.NavButtons
+			a(href="/parts/design")
+				div.NavButton Design
+			a(href="/parts/query")
+				div.NavButton Query
+			a(href="/parts/query-all")
+				div.NavButton List All
+	+returnNavButtons

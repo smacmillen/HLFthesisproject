@@ -1,0 +1,198 @@
+extends layout
+block layout-content
+	script.
+		let activeForm,qtype,PDCval;
+		function checkVal(sel) {
+			//if any other forms are active, first de-activeate these
+			if (activeForm) {
+				console.log('activeForm: ',activeForm);
+				var y = document.getElementById(activeForm);
+				y.style.display = "none";
+				//activeForm=''; //reset form
+				}
+			// get database value (channel/collection)
+			let database;
+			let radio = document.getElementsByName('database');
+			if (radio[0].checked) {
+				// channel
+				database = radio[0].value
+				// hide PDC selector
+				let p = document.getElementById('PDCselect');
+				p.style.display = "none";
+
+			} else if (radio[1].checked) {
+				// collection
+				database = radio[1].value
+				// show PDC selector
+				let p = document.getElementById('PDCselect');
+				p.style.display = "block";
+				
+			} else {
+				console.log('no database selected')
+				//window.alert('Please choose "Channel" or "Collection"')
+			}
+			console.log('database: ',database)
+			console.log('sel.selectedIndex: ',sel.selectedIndex)
+			console.log('Is it undefined? : ', (typeof(sel.selectedIndex)));
+			console.log(Boolean(sel.selectedIndex));
+			// get selected type (part/order/lot)
+			if (Boolean(sel.selectedIndex) && (database)) { // updated type + database available = show hidden form
+				let type = sel.options[sel.selectedIndex].text;
+				activeForm=database+'-'+type;
+				qtype=type;
+				setPDC(); //set PDC in case default is used
+				console.log('new type and database exists')
+				console.log('type: ',type);
+				console.log('New activeForm value: ',activeForm)
+			} else if (Boolean(sel.selectedIndex)) { // updated type + NO database provided = do NOT show form
+				console.log('new type, but no database')
+				let type = sel.options[sel.selectedIndex].text;
+				qtype=type;
+				return;
+			} else if (qtype){ // New database (assumed) + available type = show hidden form
+				console.log('old type and assumed database')
+				activeForm = database+'-'+qtype
+				setPDC(); //set PDC in case default is used
+				console.log('else activated')
+				console.log(activeForm)
+			} else { // new database (assumed) + no type provided = do nothing
+				console.log('final else activated - nothing to do')
+				return; // no stale type selection to use
+			}
+				// unhide form
+				var x = document.getElementById(activeForm);
+				x.style.display = "block";
+		}
+		function setPDC() {
+			let p = document.getElementById('PDCselection');
+			console.log('selectedIndex: ',p.selectedIndex)
+			console.log('p: ', p)
+			PDCval = p.options[p.selectedIndex].text
+			if (activeForm) {
+				// update 'pdc' field in each collection form:
+				document.querySelector("#pdc-p").value = PDCval
+				document.querySelector("#pdc-o").value = PDCval 
+				document.querySelector("#pdc-l").value = PDCval 
+			}
+		}
+
+	h2.MenuPrompt What would you like to query?
+	div.optionsArea
+		div.optionBox
+			form(method="post" action="/query/result" id="typeAndLocation")
+			// choose channel or collection:
+			h3 Location:
+			label(for='database') Channel:
+			input(type="radio" id="database" name="database" value="channel" onchange="checkVal('qtype')")
+			label(for='database') Collection:
+			input(type="radio" id="database" name="database" value="collection" onchange="checkVal('qtype')")
+			br
+			br
+			// choose part/order/lot type:
+			h3.label(for='type') Query Type:
+			//select(name='qtype' id='qtype' onChange="checkVal(this)" required = 'true')
+			select(name='qtype' id='qtype' onclick="checkVal(this)" required = 'true')
+				option(value='' disabled selected) 
+				option(value='part') part
+				option(value='order') order
+				option(value='lot') lot
+			//div(id="collection-name")
+			h3.label(for='PDCselection' id='PDCselect' hidden) PDC:
+				select(name='PDCselection' id='PDCselection' onclick="setPDC()")
+					each val, index in PDC
+						option(value= PDC[index]) #{PDC[index]}
+
+		div.optionBox(id="channel-part" hidden)
+			form(method="post" action="/query/result" id="channel-part")
+				h3 Channel - Part
+				label(for='assetID') Part ID:
+				input(type="text" id="assetID-0" name="assetID" )
+				label(for='issuer') Issuer:
+				input(type="text" id="issuer-0" name="issuer" )
+				// hidden input values:
+				input(type="hidden" id="type-0" name="type" value="part")
+				input(type="hidden" id="database-0" name="database" value="channel")
+				// submit:
+				input(type="submit" value="Submit" class="SubmitButton")
+		div.optionBox(id="channel-order" hidden)
+			form(method="post" action="/query/result" id="channel-order")
+				h3 Channel - Order
+				label(for='assetID') Order ID:
+				input(type="text" id="assetID-1" name="assetID" )
+				label(for='issuer') Issuer:
+				input(type="text" id="issuer-1" name="issuer" )
+				// hidden input values:
+				input(type="hidden" id="type-1" name="type" value="order")
+				input(type="hidden" id="database-1" name="database" value="channel")
+				// submit:
+				input(type="submit" value="Submit" class="SubmitButton")
+		div.optionBox(id="channel-lot" hidden)
+			form(method="post" action="/query/result" id="channel-lot")
+				h3 Channel - Lot
+				label(for='assetID') Lot ID:
+				input(type="text" id="assetID-2" name="assetID" )
+				// hidden input values:
+				input(type="hidden" id="type-2" name="type" value="lot")
+				input(type="hidden" id="database-2" name="database" value="channel")
+				// submit:
+				input(type="submit" value="Submit" class="SubmitButton")
+
+		div.optionBox(id="collection-part" hidden)
+			form(method="post" action="/query/result" id="collection-part")
+				h3 Collection - Part
+				label(for='partID') Part ID:
+				input(type="text" id="partID-3" name="partID" )
+				label(for='parentPart') Parent Part:
+				input(type="text" id="parentPart-3" name="parentPart" )
+				label(for='customer') Customer:
+				input(type="text" id="customer-3" name="customer" )
+				// hidden input values:
+				input(type="hidden" id="type-3" name="type" value="part")
+				input(type="hidden" id="database-3" name="database" value="collection")
+				input(type="hidden" id="pdc-p" name="pdc")
+				// submit:
+				input(type="submit" value="Submit" class="SubmitButton")
+		div.optionBox(id="collection-order" hidden)
+			form(method="post" action="/query/result" id="collection-order")
+				h3 Collection - Order
+				label(for='orderID') Order ID:
+				input(type="text" id="orderID-4" name="orderID" )
+				label(for='partID') Part ID:
+				input(type="text" id="partID-4" name="partID" )
+				label(for='customer') Customer:
+				input(type="text" id="customer-4" name="customer" )
+				label(for='supplier') Supplier:
+				input(type="text" id="supplier-4" name="supplier" )
+				label(for='status') Status:
+				input(type="text" id="status-4" name="status" )
+				// hidden input values:
+				input(type="hidden" id="type-4" name="type" value="order")
+				input(type="hidden" id="database-4" name="database" value="collection")
+				input(type="hidden" id="pdc-o" name="pdc")
+				// submit:
+				input(type="submit" value="Submit" class="SubmitButton")
+		div.optionBox(id="collection-lot" hidden)
+			form(method="post" action="/query/result" id="collection-lot")
+				h3 Collection - Lot
+				label(for='lotID') Lot ID:
+				input(type="text" id="lotID-5" name="lotID" )
+				label(for='partID') Part ID:
+				input(type="text" id="partID-5" name="partID" )
+				label(for='orderID') Order ID:
+				input(type="text" id="orderID-5" name="orderID" )
+				label(for='qualityStatus') Quality Status:
+				input(type="text" id="qualityStatus-5" name="qualityStatus" )
+				label(for='operation') Operation:
+				input(type="text" id="operation-5" name="operation" )
+				label(for='location') Location:
+				input(type="text" id="location-5" name="location" )
+				// hidden input values:
+				input(type="hidden" id="type-5" name="type" value="lot")
+				input(type="hidden" id="database-5" name="database" value="collection")
+				input(type="hidden" id="pdc-l" name="pdc")
+				//TODO: not yet implemented:
+				//label(for='producer') Producer:
+				//input(type="text" id="producer" name="producer" )
+				input(type="submit" value="Submit" class="SubmitButton")
+
+	+returnNavButtons

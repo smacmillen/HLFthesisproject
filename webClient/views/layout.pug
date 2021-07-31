@@ -1,0 +1,34 @@
+include ../scripts/mixins
+
+block variables
+doctype html
+html
+	head
+		meta(charset="utf-8")
+		if (ORG === 'OEM')
+			link(rel="icon" href="/red.png" type="image/x-icon")
+			link(rel="shortcut icon" href="/red.png" type="image/x-icon")
+		else if (ORG === 'S11')
+			link(rel="icon" href="/blue.png" type="image/x-icon")
+			link(rel="shortcut icon" href="/blue.png" type="image/x-icon")
+		else if (ORG === 'S12')
+			link(rel="icon" href="/green.png" type="image/x-icon")
+			link(rel="shortcut icon" href="/green.png" type="image/x-icon")
+		else if (ORG === 'S21')
+			link(rel="icon" href="/yellow.png" type="image/x-icon")
+			link(rel="shortcut icon" href="/yellow.png" type="image/x-icon")
+		else
+			link(rel="icon" href="/purple.png" type="image/x-icon")
+			link(rel="shortcut icon" href="/purple.png" type="image/x-icon")
+		meta(name="viewport",content="width=device-width, initial-scale=1,shrink-to-fit=no")
+		meta(name="theme-color",content="#000000")
+		title #{title} | Supply Chain Demonstration System
+		link(rel="stylesheet" href="/style.css")
+	body
+		div#root
+			+header
+			div(id="content-wrap")
+				block layout-content
+					h1.MenuTitle #{title}
+			+footer
+

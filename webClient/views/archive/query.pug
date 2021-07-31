@@ -1,0 +1,17 @@
+extends layout
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle #{title}
+		h2.MenuPrompt What would you like to query?
+		div.NavButtons
+			a(href="/query/parts")
+				div.NavButton Parts
+			a(href="/query/orders")
+				div.NavButton Orders
+			a(href="/query/lots")
+				div.NavButton Lots
+			a(href="/query/custom")
+				div.NavButton Custom
+			a(href="/")
+				div.ReturnButton Return Home

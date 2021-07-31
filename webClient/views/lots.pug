@@ -1,0 +1,16 @@
+extends layout
+
+block layout-content
+	div.MenuBox
+		h1.MenuTitle #{title}
+		//h2.MenuPrompt Please select an option:
+		div.NavButtons
+			a(href="/lots/make")
+				div.NavButton Manufacture
+			a(href="/lots/inspect")
+				div.NavButton Inspect
+			a(href="/lots/query")
+				div.NavButton Query
+			a(href="/lots/query-all")
+				div.NavButton List All
+	+returnNavButtons

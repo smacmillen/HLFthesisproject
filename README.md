@@ -1,7 +1,7 @@
 # HLFthesisproject
 
 This project was created for my masters thesis (defended June 25, 2021) as a proof-of-concept blockchain-based system for sharing quality data across a supply chain.
-The project is based on Hyperledger Fabric 3x and was designed to run on 4 (VPS) servers, each hosting a single orderer node, peer node, and corresponding CAs.  In my implementation, each of the 4 VPS's were located in a different country.
+The project is based on Hyperledger Fabric 3x and was designed to run on 4 (VPS) servers, each hosting a single orderer node, peer node, and corresponding CAs.  In my implementation, each of the 4 VPS's were located in a different country (Germany, Singapore, Hong Kong, and California).
 
 ## Disclaimer: 
 

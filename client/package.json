@@ -1,0 +1,29 @@
+{
+  "name": "app-js",
+  "version": "1.0.0",
+  "description": "client app for HLF Supply Chain program",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "scm"
+  ],
+  "author": "Simeon MacMillen",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.19.0"
+  },
+  "dependencies": {
+    "colors": "^1.0.3",
+    "dateformat": "^4.5.1",
+    "dotenv": "^8.2.0",
+    "fabric-ca-client": "^2.2.5",
+    "fabric-network": "^2.2.5",
+    "fabric-sdk-node": "^1.1.0",
+    "fs-extra": "^9.1.0",
+    "grpc": "^1.24.4",
+    "prompt-sync": "^4.2.0",
+    "treeify": "^1.1.0"
+  }
+}

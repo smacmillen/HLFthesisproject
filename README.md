@@ -5,8 +5,10 @@ The project is based on Hyperledger Fabric 3x and was designed to run on 4 (VPS)
 
 ## Disclaimer: 
 
-My degree is in Industrial Engineering, not software engineering.  My knowledge of HLF, Docker, Javascript, Node.js, Golang, Bash, etc. is mostly self-taught.  As a result, please be aware that the code written and used may not be the most efficient or secure. 
+My degree is in Industrial Engineering, not software engineering.  My knowledge of HLF, Docker, Javascript, Node.js, Golang, Bash, etc. is mostly self-taught.  As a result, please be aware that the code written and used may not be the most efficient or secure.   Please note that this project was designed for personal/academic purposes.  No warranty or suitability of use is given.  Use at your own risk.
 
+## Copyright:
+Copyright or ownership of any externally sourced code is property of the respective owners.  Please refer to individual files for this information where available.  However, the completeness of copyright and source code reference information is not guaranteed. Liability for any copyright infringement through use of this code is the responsibility of the user.
 
 ## Project Notes:
 
